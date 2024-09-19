@@ -93,4 +93,6 @@ fi
 # htop
 [ "${HTOP_TOOL}" = "yes" ] && PKG_DEPENDS_TARGET+=" htop"
 
+PKG_DEPENDS_TARGET+=" emulationstation m8c"
+
 true
