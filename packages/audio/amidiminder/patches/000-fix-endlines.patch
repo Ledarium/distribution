@@ -1,0 +1,81 @@
+diff --git a/rule.cpp b/rule.cpp
+index df189cf..44b16dd 100644
+--- a/rule.cpp
++++ b/rule.cpp
+@@ -165,13 +165,13 @@ namespace {
+     static const std::regex clientRE(
+       "(\\*)|\"([^\"]+)\"|([^*\"].*)");
+     if (!std::regex_match(s, m, clientRE))
+-      throw Parse(Error() << "malformed client '" << s << "'");
++      throw Parse(Error() << "malformed client '" << s << "'" << std::endl);
+ 
+     if (m.str(1).size())  return ClientSpec::wildcard();
+     if (m.str(2).size())  return ClientSpec::exact(m.str(2));
+     if (m.str(3).size())  return ClientSpec::partial(m.str(3));
+ 
+-    throw Parse(Error() << "parseClientSpec match failure with '" << s << "'");
++    throw Parse(Error() << "parseClientSpec match failure with '" << s << "'" << std::endl);
+       // shouldn't ever happen!
+   }
+ 
+@@ -181,14 +181,14 @@ namespace {
+     static const std::regex portRE(
+       "(\\*)|\"([^\"]+)\"|(\\d+)|([^*\"].*)");
+     if (!std::regex_match(s, m, portRE))
+-      throw Parse(Error() << "malformed port '" << s << "'");
++      throw Parse(Error() << "malformed port '" << s << "'" << std::endl);
+ 
+     if (m.str(1).size())  return PortSpec::wildcard();
+     if (m.str(2).size())  return PortSpec::exact(m.str(2));
+     if (m.str(3).size())  return PortSpec::numeric(std::stoi(m.str(3)));
+     if (m.str(4).size())  return PortSpec::partial(m.str(4));
+ 
+-    throw Parse(Error() << "parsePortSpec match failure with '" << s << "'");
++    throw Parse(Error() << "parsePortSpec match failure with '" << s << "'" << std::endl);
+       // shouldn't ever happen!
+   }
+ 
+@@ -201,14 +201,14 @@ namespace {
+       if      (s == ".hw")    type = SND_SEQ_PORT_TYPE_HARDWARE;
+       else if (s == ".app")   type = SND_SEQ_PORT_TYPE_APPLICATION;
+       else
+-        throw Parse(Error() << "invalid port type '" << s << "'");
++        throw Parse(Error() << "invalid port type '" << s << "'" << std::endl);
+ 
+       return AddressSpec(ClientSpec::wildcard(), PortSpec::type(type));
+     }
+ 
+     static const std::regex addressRE("([^:.]*)(:([^:.]*))?");
+     if (!std::regex_match(s, m, addressRE))
+-      throw Parse(Error() << "malformed address '" << s << "'");
++      throw Parse(Error() << "malformed address '" << s << "'" << std::endl);
+ 
+     ClientSpec cs = parseClientSpec(m.str(1));
+     PortSpec ps =
+@@ -222,7 +222,7 @@ namespace {
+ 
+     static const std::regex ruleRE("(.*?)\\s+(-+(?:x-+)?>|<-+(?:x-+)?>?)\\s+(.*)");
+     if (!std::regex_match(s, m, ruleRE))
+-      throw Parse(Error() << "malformed rule '" << s << "'");
++      throw Parse(Error() << "malformed rule '" << s << "'" << std::endl);
+ 
+     AddressSpec left = parseAddressSpec(m.str(1));
+     AddressSpec right = parseAddressSpec(m.str(3));
+@@ -230,7 +230,7 @@ namespace {
+     ConnectionRules rules;
+     std::string type = m.str(2);
+     if (type.empty())
+-      throw Parse(Error() << "parseConnectionRule match failure with '" << s << "'");
++      throw Parse(Error() << "parseConnectionRule match failure with '" << s << "'" << std::endl);
+         // should never happen, because ruleRE ensures at least one character
+ 
+     bool blocking = type.find('x') != std::string::npos;
+@@ -270,7 +270,7 @@ namespace {
+     }
+ 
+     if (expect_failure)
+-      throw Parse(Error() << "was not expected to parse");
++      throw Parse(Error() << "was not expected to parse" << std::endl);
+     return r;
+   }
+ 
