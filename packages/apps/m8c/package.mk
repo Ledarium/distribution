@@ -8,8 +8,8 @@ PKG_LONGDESC="M8 headless display"
 PKG_TOOLCHAIN="cmake"
 
 makeinstall_target() {
-  mkdir -p /storage/.local/share/m8c
-  cp ${PKG_DIR}/config.ini /storage/.local/share/m8c/config.ini
+  mkdir -p ${INSTALL}/storage/.local/share/m8c
+  cp ${PKG_DIR}/config.ini ${INSTALL}/storage/.local/share/m8c/config.ini
 
   mkdir -p ${INSTALL}/usr/bin
   cp m8c ${INSTALL}/usr/bin/

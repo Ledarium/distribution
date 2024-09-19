@@ -7,6 +7,10 @@
 pw-loopback -C M8 -P alsa_output._sys_devices_platform_rk817-sound_sound_card0.HiFi__Headphones__sink -l 20 &
 LOOPBACK_PID=$!
 
-/storage/m8c
+amidiminder -f /etc/amidiminder.rules &
+AMIDIMINDER_PID=$!
 
+m8c
+
+kill $AMIDIMINDER_PID
 kill $LOOPBACK_PID
