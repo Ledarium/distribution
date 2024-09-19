@@ -4,11 +4,9 @@
 # Copyright (C) 2019-present Shanti Gilbert (https://github.com/shantigilbert)
 # Copyright (C) 2023 JELOS (https://github.com/JustEnoughLinuxOS)
 
-gptokeyb fileman textinput &
+pw-loopback -C M8 -P alsa_output._sys_devices_platform_rk817-sound_sound_card0.HiFi__Headphones__sink -l 20 &
+LOOPBACK_PID=$!
 
-. /etc/profile
-set_kill set "FileMan"
+/storage/m8c
 
-fileman
-
-killall gptokeyb &
+kill $LOOPBACK_PID
